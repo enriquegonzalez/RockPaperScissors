@@ -1,0 +1,50 @@
+<% 
+def human_weapon_is_better?
+  @human_weapon == 'Rock' && @computer_weapon == 'Scissors'   ||
+  @human_weapon == 'Paper' && @computer_weapon == 'Rock'      ||
+  @human_weapon == 'Scissors' && @computer_weapon == 'Paper'  
+end
+
+def result
+  return 0 if @human_weapon == @computer_weapon
+  return 1 if human_weapon_is_better?
+  -1
+end
+
+def result_class
+  case result
+    when 0
+      'alert-warning'
+    when 1
+      'alert-success'
+    else
+      'alert-error'
+  end
+end
+def result_statement
+  case result
+    when 0
+      "It's a tie!"
+    when 1
+      "You won!"
+    else
+      "I won!"
+  end
+end 
+%>
+
+<% if @human_weapon %>
+<div class="alert <%= result_class %>">
+  <h2>You threw <%= @human_weapon %></h2>
+  <h2>I threw <%= @computer_weapon %></h2>
+  <h2 class="result"><%= result_statement %></h2>
+</div>
+<% end %>
+
+<div class="page-header">
+  <h1>Ready? 1...2...3....</h1>
+</div>
+
+<% ['Rock', 'Paper', 'Scissors'].each do |weapon| %>
+  <%= link_to image_tag("#{weapon.downcase}.png", class: 'weapon'), throws_url(:throw => weapon.downcase.to_sym), method: 'post' %>
+<% end %>
